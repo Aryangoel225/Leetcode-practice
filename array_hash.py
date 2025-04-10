@@ -1,5 +1,6 @@
 # Problem 1: Given an integer array nums, return true if any value appears more 
 # than once in the array, otherwise return false.
+from collections import defaultdict
 from typing import List
 
 class Solution:
@@ -42,3 +43,125 @@ class Solution:
 # loop through both strings, and for add a count for each letter
 # add the , 0 so its not none but 0 when the count doesn't exist
 # check if the hashmaps are the same
+
+# Problem 3: Given an array of integers nums and an integer target, 
+# return the indices i and j such that nums[i] + nums[j] == target and i != j.
+
+# You may assume that every input has exactly one pair of indices 
+# i and j that satisfy the condition.
+#Return the answer with the smaller index first.
+
+class Solution:
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+       prevMap = {} # val : index
+
+       for i , n in enumerate(nums):
+            diff = target - n
+            if diff in prevMap:
+                return [prevMap[diff], i]
+            prevMap[n] = i
+            
+# Notes: create a hashmap to track the values and the index
+# then use enumerate which lets you for loop through the nums list with index and value
+# then find the diff, find in prevMap return the two indexs
+# else add the val and index to hashmap
+
+#Problem 4: Given an array of strings strs, group all anagrams together into sublists.
+# You may return the output in any order. 
+
+# An anagram is a string that contains the exact same characters as another string,
+# but the order of the characters can be different.
+
+# Input: strs = ["act","pots","tops","cat","stop","hat"]
+# Output: [["hat"],["act", "cat"],["stop", "pots", "tops"]]
+
+class Solution:
+    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+        anagrams = defaultdict(list)
+
+        for word in strs:
+            key = ''.join(sorted(word))
+            anagrams[key].append(word)
+        return list(anagrams.values())
+    
+#Notes: create a defaultdict––a hashmap where if a key doesn't exist, a new default value automactially 
+# loop through the word in strs list
+# break down each word in a sorted char array for the key
+# add the word to that key
+# then take the values for the hashmap and return it as a list
+
+# Problem 5: Given an integer array nums and an integer k, return the k most frequent elements within the array.
+
+#Input: nums = [1,2,2,3,3,3], k = 2 Output: [2,3]
+# Input: nums = [7,7], k = 1 Output: [7]
+
+class Solution:
+    def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+        count = {} 
+        freq = [[] for i in range(len(nums) + 1)]
+        
+        for n in nums:
+            count[n] = 1 + count.get(n, 0)
+        for n , c in count.items():
+            freq[c].append(n)
+        
+        res = []
+        for i in range(len(freq) - 1, 0 , -1):
+            for n in freq[i]:
+                res.append(n)
+                if len(res) == k:
+                    return res
+
+# Notes: create a dictionary to story numbered apperance for each number
+# loop through the array and add to the count with key: num and value being count or 0 + 1
+
+# Create a frequency bucket by intialzing a array for length of nums + 1 
+
+# fill in the freq bucket by looping through the count.items (tuples of the dict)
+# take n = value c = count and append to the freq bucket as count as index and n and value 
+
+# Collect the top k frequent numbers
+# intialize the result list
+#  range(start, stop, step) -> for the length of freq, iterate backwards
+# for the values of n, add to result array, then return res
+
+
+# Problem 6: Design an algorithm to encode a list of strings to a single string. The encoded string is then decoded back to the original list of strings.
+
+# Input: ["neet","code","love","you"] Output:["neet","code","love","you"]
+
+class Solution:
+
+    def encode(self, strs: List[str]) -> str:
+        res = ""
+        for word in strs:
+            res += str(len(word) + '#' + word)
+        return word
+
+    def decode(self, s: str) -> List[str]:
+       res = []
+       i = 0
+       while i < len(s):
+           j = i
+           while s[j] != '#':
+               j += 1
+           length = int(s[i:j])
+           word =  s[j+1: j+1+length]
+           res.append(word)
+           i = j + 1 + length
+       return res
+   
+   # Notes: for encode, intailize a string and then add all strs to it with cast on length
+   # make sure to add the length of the word, # to place hold, and the word
+   
+   # for decode, intalize result as a list
+   # iterate i while its less than length of str
+   # make j = i to track when # is
+   # loop until j = #
+   # take the substring of i to j and cast to int for length
+   # then the word is substring from j+ 1 to j+1 + length
+   # add that word to result and move i to the end of word
+   # at then end return result
+   
+   
+   
