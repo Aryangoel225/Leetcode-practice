@@ -164,4 +164,54 @@ class Solution:
    # at then end return result
    
    
+   # Problem 7: Given an integer array nums, return an array output where output[i] is the product of all the elements of nums except nums[i].
+   # Input: nums = [1,2,4,6] Output: [48,24,12,8]
    
+class Solution:
+    def productExceptSelf(self, nums: List[int]) -> List[int]:
+        res = [1] * (len(nums))
+
+        # Build prefix product
+        prefix = 1
+        for i in range(len(nums)):
+            res[i] = prefix
+            prefix *= nums[i]
+
+        # Build suffix product and multiply directly
+        suffix = 1
+        for i in range(len(nums) - 1, -1, -1):
+            res[i] *= suffix
+            suffix *= nums[i]
+        return res
+   
+   # Notes: create a result array with length of nums filled with 1
+   # use prefix and suffix techique:
+   # prefix[i]: product of all elements before index i.
+   # suffix[i]: product of all elements after index i.
+   # iterate through the foward and backwards of nums and muplity each value 
+   # by the suffix or prefix and return result
+   
+# You are given a a 9 x 9 Sudoku board board. A Sudoku board is valid if the following rules are followed:
+# Each row must contain the digits 1-9 without duplicates.
+# Each column must contain the digits 1-9 without duplicates.
+# Each of the nine 3 x 3 sub-boxes of the grid must contain the digits 1-9 without duplicates.
+# Return true if the Sudoku board is valid, otherwise return false
+   
+class Solution:
+    def isValidSudoku(self, board: List[List[str]]) -> bool:
+        cols = defaultdict(set)
+        rows = defaultdict(set)
+        squares = defaultdict(set) # key = (r/3, c/3)
+        
+        for r in range(9):
+            for c in range(9):
+                if board[r][c] == ".":
+                    continue
+                if (board[r][c] in rows[r] or
+                   board[r][c] in cols[c] or
+                   board[r][c] in squares[(r//3, c//3)]):
+                    return False
+                cols[c].add(board[r][c])
+                rows[c].add(board[r][c])
+                squares[(r//3, c//3)].add(board[r][c])
+            return True 
