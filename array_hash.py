@@ -212,6 +212,48 @@ class Solution:
                    board[r][c] in squares[(r//3, c//3)]):
                     return False
                 cols[c].add(board[r][c])
-                rows[c].add(board[r][c])
+                rows[r].add(board[r][c])
                 squares[(r//3, c//3)].add(board[r][c])
             return True 
+        
+# Notes: create a defaultdict of sets for cols rows and squares
+# iterate through rows and cols and then check each value 
+# if board is . continue
+# if board is in rows for r , in cols for c, or squares for r//3, c//3: return false
+# else add that value to cols, rows, square 
+# return true at the end
+
+
+# Week 2:
+# Problem 1: Given a string s, return true if it is a palindrome, otherwise return false.
+
+# Input: s = "Was it a car or a cat I saw?"
+# Output: true
+
+
+class Solution:
+    def isPalindrome(self, s: str) -> bool:
+        start = 0
+        end = len(s) - 1
+        while start < end:
+            
+            while start < end and not s[start].isalnum():
+                 start += 1
+            while start < end and not s[end].isalnum():
+                end -= 1
+
+            if s[start].lower() != s[end].lower():
+                return False
+            
+            start += 1
+            end -= 1
+        return True
+    
+    # Notes: Use the two pointer method: 
+    # intialize a pointer the start and end of string and converge them
+    # while start is less than end pointer
+    # move the pointer if they aren't a letter
+    # then compare values and if they are equal, if not return false
+    # else move the pointers
+    # return true at end loop 
+    
