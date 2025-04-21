@@ -257,3 +257,71 @@ class Solution:
     # else move the pointers
     # return true at end loop 
     
+    # Problem 2: Given an array of integers numbers that is sorted in non-decreasing order.
+    # Return the indices (1-indexed) of two numbers, [index1, index2], such that they add up to a given target number target and index1 < index2. 
+    # Note that index1 and index2 cannot be equal, therefore you may not use the same element twice.
+    
+    # Input: numbers = [1,2,3,4], target = 3
+    # Output: [1,2]
+    
+    class Solution:
+        def twoSum(self, nums: List[int], target: int) -> List[int]:
+            l = 0
+            r = len(nums) - 1
+            while l < r:
+                total = nums[l] + nums[r]
+                if total > target:
+                    r -= 1
+                elif total < target:
+                    l += 1
+                else:
+                    return [l + 1, r + 1]
+                return []
+    # Notes: Use the two pointer method: 
+    # intialize a pointer the start and end of array and converge them
+    # if the total of the integers is more than target, move the right pointer
+    # if the total of the integers is less than target, move the left pointer
+    # then return the correct index if equal
+
+    # Problem 3: Given an integer array nums, return all the triplets [nums[i], nums[j], nums[k]] 
+    # where nums[i] + nums[j] + nums[k] == 0, and the indices i, j and k are all distinct.
+    # The output should not contain any duplicate triplets. 
+    # You may return the output and the triplets in any order.
+    
+    # Input: nums = [-1,0,1,2,-1,-4]
+    # Output: [[-1,-1,2],[-1,0,1]]
+    
+    class Solution:
+        def threeSum(self, nums: List[int]) -> List[List[int]]:
+            res = []
+            nums.sort()
+
+            for i, a in enumerate(nums):
+                if i > 0 and a == nums[i - 1]:
+                    continue
+                l, r = i + 1, len(nums) - 1
+                while l < r:
+                    threeSum = a + nums[l] + nums[r]
+                    if threeSum > 0:
+                        r -= 1
+                    elif threeSum < 0:
+                        l += 1
+                    else:
+                        res.append([a, nums[l], nums[r]])
+                        l += 1
+                        while l < r and nums[l] == nums[l - 1]: 
+                            l += 1
+            return res
+        
+    # Notes: Use the two pointer method: 
+    # intialize a result list and sort the array to use dynamic pointers
+    # use enumeration since you need the value and index
+    # then l pointer to left of index and right is at end of array
+    # for the loop of remaining array, find the threeSum total
+    # if the total is more than target, move the right pointer
+    # if the total is less than target, move the left pointer
+    # else append the total parts
+    # to move the pointers, its while l < r and num[l] has a duplicate
+    # move l again / duplicate only matter from one direction
+    # return result 
+
