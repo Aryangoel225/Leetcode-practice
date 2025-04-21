@@ -324,4 +324,61 @@ class Solution:
     # to move the pointers, its while l < r and num[l] has a duplicate
     # move l again / duplicate only matter from one direction
     # return result 
+    
+    # Problem 4: You are given an integer array heights where heights[i] represents the height of the [i] bar 
+    # You may choose any two bars to form a container. 
+    # Return the maximum amount of water a container can store.
+   
+    class Solution:
+        def maxArea(self, heights: List[int]) -> int:
+            l = 0
+            r = len(heights) - 1
+            maxArea = 0
 
+            while l < r:
+                area = min(heights[l] , heights[r]) * (r - l)
+                maxArea = max(maxArea, area)
+                if heights[l] <= heights[r]:
+                    l += 1
+                else:
+                    r -= 1 
+            return maxArea
+    # Notes: intialize left and right pointers, and max area
+    # while looping, find the area by taking the min height of the two pointers and multplying by width
+    # compare to maxArea 
+    # then whatever the lowest value of the pointers is shift that value, 
+    # because you trying to find the largest bucket
+    # return maxArea
+    
+    #Problem 5: You are given an array non-negative integers height which represent an elevation map.
+    # Each value height[i] represents the height of a bar, which has a width of 1.
+    # Return the maximum area of water that can be trapped between the bars.
+
+
+    class Solution:
+        def trap(self, height: List[int]) -> int:
+            if not height: 
+                return 0
+
+            l , r = 0, len(height) - 1
+            leftMax , rightMax = height[l], height[r]
+            res = 0
+
+            while l < r:
+                if leftMax < rightMax:
+                    l += 1
+                    leftMax = max(leftMax, height[l])
+                    res += leftMax - height[l]
+                else:
+                    r -= 1
+                    rightMax = max(rightMax, height[r])
+                    res += rightMax - height[r]
+            return res
+        
+    #Notes: if height is null return 0
+    # intialize two pointers left and right of array
+    # initalize left and right max value of those pointers
+    # result = 0
+    # loop through and check if left or rightMax is less, which is need to calculate the side of the bucket
+    # then shift the respective pointer, and find the new max, add the difference to the result
+    # return result
