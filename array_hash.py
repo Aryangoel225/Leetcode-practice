@@ -560,5 +560,40 @@ class Solution:
 
             return len(stack)
     
-    # 
+    # Notes: create a array of pairs of the positions and speed arrays given
+    # create a stack
+    # create a reverse order sorted list for loop to iterate through with p for position and s for speed
+    # append in stack the time it takes for the car
+    # and if the lenght of the stack is greater than 2 and the top element smaller than element before it (meaning the earlier car will take less time and catch up)
+    # pop the value from the stack (the cars became a fleet)
+    # reutrn the length of stack 
     
+    
+    # Problem 7: given a array of heights to represent bars. Find the max area rectangle
+    class Solution:
+        def largestRectangleArea(self, heights: List[int]) -> int:
+            maxArea = 0
+            stack = [] # pair (index, height)
+
+            for i , h in enumerate(heights):
+                start = i
+                while stack and stack[-1][1] > h:
+                    index, height = stack.pop()
+                    maxArea = max(maxArea, height * (i - index))
+                    start = index
+                stack.append((start, h))
+
+            for i , h in stack:
+                maxArea = max(maxArea, h * (len(heights) - i))
+            return maxArea
+    
+    # Notes: initialse a maxArea to 0, and a stack to take pairs of index and height
+    # then loop through the height array with i (index) and h (height)
+    # save the current index in start 
+    # while stack is not empty and the top of the stack is a greater height than the current (this means the bar of the previous index can't extend any further)
+    # pop the previous bar for its index (which it can extend back furtest to) and height
+    # find the max height 
+    # and set the start equal to index the of popped index value because that how far the current bar extends
+    # append to the stack the start and h value
+    # do a for loop for remaind value in the stack and compare height to max value 
+    # return max value 
